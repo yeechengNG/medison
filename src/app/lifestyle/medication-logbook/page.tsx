@@ -2,7 +2,7 @@
 
 import { HomeIcon, BeakerIcon, BellIcon, ClockIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 interface Medication {
@@ -43,7 +43,7 @@ const DEFAULT_MEDICATIONS: Medication[] = [
   }
 ];
 
-export default function MedicationLogbookPage() {
+function MedicationLogbookContent() {
   const searchParams = useSearchParams();
   const [showAddForm, setShowAddForm] = useState(false);
   const [medications, setMedications] = useState<Medication[]>([]);
@@ -255,5 +255,31 @@ export default function MedicationLogbookPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function MedicationLogbookPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen pb-16">
+        <div className="bg-green-500 text-white py-4">
+          <div className="max-w-screen-xl mx-auto px-4">
+            <h1 className="text-2xl font-bold">Medication Logbook</h1>
+          </div>
+        </div>
+        <div className="max-w-screen-xl mx-auto px-4 py-6">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-48 mb-4"></div>
+            <div className="space-y-3">
+              <div className="h-20 bg-gray-200 rounded"></div>
+              <div className="h-20 bg-gray-200 rounded"></div>
+              <div className="h-20 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }>
+      <MedicationLogbookContent />
+    </Suspense>
   );
 } 
