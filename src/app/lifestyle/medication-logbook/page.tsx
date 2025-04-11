@@ -46,24 +46,13 @@ const DEFAULT_MEDICATIONS: Medication[] = [
 function MedicationLogbookContent() {
   const searchParams = useSearchParams();
   const [showAddForm, setShowAddForm] = useState(false);
-  const [medications, setMedications] = useState<Medication[]>([]);
+  const [medications, setMedications] = useState<Medication[]>(DEFAULT_MEDICATIONS);
   const [newMedication, setNewMedication] = useState({
     name: '',
     dosage: '',
     frequency: '',
     startDate: new Date().toISOString().split('T')[0]
   });
-
-  // Load medications from localStorage on mount
-  useEffect(() => {
-    const savedMedications = localStorage.getItem('medications');
-    if (savedMedications) {
-      setMedications(JSON.parse(savedMedications));
-    } else {
-      setMedications(DEFAULT_MEDICATIONS);
-      localStorage.setItem('medications', JSON.stringify(DEFAULT_MEDICATIONS));
-    }
-  }, []);
 
   useEffect(() => {
     if (searchParams.get('add') === 'true') {
@@ -78,9 +67,7 @@ function MedicationLogbookContent() {
       ...newMedication,
       status: 'current'
     };
-    const updatedMedications = [newMed, ...medications];
-    setMedications(updatedMedications);
-    localStorage.setItem('medications', JSON.stringify(updatedMedications));
+    setMedications([newMed, ...medications]);
     setShowAddForm(false);
     setNewMedication({
       name: '',
