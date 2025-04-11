@@ -1,6 +1,6 @@
 'use client';
 
-import { HomeIcon, BeakerIcon, BellIcon, ClockIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { HomeIcon, BeakerIcon, BellIcon, ClockIcon, XMarkIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -46,13 +46,24 @@ const DEFAULT_MEDICATIONS: Medication[] = [
 function MedicationLogbookContent() {
   const searchParams = useSearchParams();
   const [showAddForm, setShowAddForm] = useState(false);
-  const [medications, setMedications] = useState<Medication[]>(DEFAULT_MEDICATIONS);
+  const [medications, setMedications] = useState<Medication[]>([]);
   const [newMedication, setNewMedication] = useState({
     name: '',
     dosage: '',
     frequency: '',
     startDate: new Date().toISOString().split('T')[0]
   });
+
+  // Load medications from localStorage on mount
+  useEffect(() => {
+    const savedMedications = localStorage.getItem('medications');
+    if (savedMedications) {
+      setMedications(JSON.parse(savedMedications));
+    } else {
+      setMedications(DEFAULT_MEDICATIONS);
+      localStorage.setItem('medications', JSON.stringify(DEFAULT_MEDICATIONS));
+    }
+  }, []);
 
   useEffect(() => {
     if (searchParams.get('add') === 'true') {
@@ -67,7 +78,9 @@ function MedicationLogbookContent() {
       ...newMedication,
       status: 'current'
     };
-    setMedications([newMed, ...medications]);
+    const updatedMedications = [newMed, ...medications];
+    setMedications(updatedMedications);
+    localStorage.setItem('medications', JSON.stringify(updatedMedications));
     setShowAddForm(false);
     setNewMedication({
       name: '',
@@ -77,12 +90,26 @@ function MedicationLogbookContent() {
     });
   };
 
+  const handleReset = () => {
+    setMedications(DEFAULT_MEDICATIONS);
+    localStorage.setItem('medications', JSON.stringify(DEFAULT_MEDICATIONS));
+  };
+
   return (
     <div className="min-h-screen pb-16">
       {/* Green Header */}
-      <div className="bg-green-500 text-white py-4">
+      <div className="bg-green-500 text-white py-4 relative">
         <div className="max-w-screen-xl mx-auto px-4">
-          <h1 className="text-2xl font-bold">Medication Logbook</h1>
+          <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Medication Logbook</h1>
+            <button
+              onClick={handleReset}
+              className="text-white/70 hover:text-white transition-colors"
+              title="Reset to default medications"
+            >
+              <ArrowPathIcon className="h-5 w-5" />
+            </button>
+          </div>
         </div>
       </div>
 

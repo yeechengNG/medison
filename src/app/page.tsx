@@ -11,24 +11,29 @@ export default function HomePage() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [reminders, setReminders] = useState([
     {
-      type: 'medicine',
-      title: 'Blood Pressure Medicine',
-      time: '9:00 AM',
-      description: '2 tablets, Once daily'
-    },
-    {
-      type: 'medicine',
-      title: 'Cholesterol Medicine',
-      time: '9:00 AM',
-      description: '1 tablet, Once daily'
-    },
-    {
       type: 'appointment',
       title: 'Dr. Smith Appointment',
       time: '2:30 PM',
       description: 'Regular checkup'
     }
   ]);
+
+  // Load medications from localStorage and convert them to reminders
+  useEffect(() => {
+    const savedMedications = localStorage.getItem('medications');
+    if (savedMedications) {
+      const medications = JSON.parse(savedMedications);
+      const medicationReminders = medications
+        .filter((med: any) => med.status === 'current')
+        .map((med: any) => ({
+          type: 'medicine',
+          title: med.name,
+          time: '9:00 AM',
+          description: `${med.dosage}, ${med.frequency}`
+        }));
+      setReminders([...medicationReminders, ...reminders.filter(r => r.type === 'appointment')]);
+    }
+  }, []);
 
   const handleTalkClick = () => {
     if (isRecording) {
