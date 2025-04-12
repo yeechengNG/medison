@@ -92,18 +92,18 @@ export default function HomePage() {
         <div className="text-center mb-4">
           <p className="text-gray-600 mb-2">Primary Language: Tamil</p>
           {/* Profile Picture with Speech Bubble */}
-          <div className="relative flex flex-col items-center">
-            {/* Speech Bubble */}
-            <div className="relative mb-8 bg-white px-8 py-4 rounded-3xl shadow-lg border-2 border-gray-200">
-              <h1 className="text-4xl font-bold text-black">HELLO, SAMMY</h1>
-              {/* Speech Bubble Triangle */}
-              <div className="absolute -bottom-5 left-1/2 transform -translate-x-1/2">
-                <div className="w-8 h-8 bg-white border-r-2 border-b-2 border-gray-200 rotate-45 transform origin-center"></div>
-              </div>
-            </div>
+          <div className="relative flex items-center justify-center gap-4 mb-8">
             {/* Avatar */}
-            <div className="w-80 h-80 z-10">
+            <div className="w-80 h-80">
               <IndianSonAvatar className="w-full h-full" />
+            </div>
+            {/* Speech Bubble */}
+            <div className="relative bg-white px-8 py-4 rounded-3xl shadow-lg border-2 border-gray-200">
+              <h1 className="text-4xl font-bold text-black">Hello, Sammy</h1>
+              {/* Speech Bubble Triangle */}
+              <div className="absolute top-1/2 -left-4 transform -translate-y-1/2">
+                <div className="w-8 h-8 bg-white border-l-2 border-b-2 border-gray-200 rotate-45 transform origin-center"></div>
+              </div>
             </div>
           </div>
         </div>
