@@ -1,8 +1,9 @@
 'use client';
 
-import { BellIcon, CalendarIcon, BeakerIcon, MicrophoneIcon, CameraIcon, ShareIcon, HomeIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { BellIcon, CalendarIcon, BeakerIcon, MicrophoneIcon, CameraIcon, ShareIcon, HomeIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
+import IndianSonAvatar from '../components/IndianSonAvatar';
 
 export default function HomePage() {
   const [isRecording, setIsRecording] = useState(false);
@@ -91,10 +92,10 @@ export default function HomePage() {
         <div className="text-center mb-4">
           <p className="text-gray-600 mb-2">Primary Language: Tamil</p>
           <h1 className="text-4xl font-bold mb-6">HELLO, SAMMY</h1>
-          {/* Profile Picture Icon */}
+          {/* Profile Picture */}
           <div className="flex justify-center mb-8">
-            <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center border-4 border-primary">
-              <UserCircleIcon className="w-24 h-24 text-gray-400" />
+            <div className="w-80 h-80">
+              <IndianSonAvatar className="w-full h-full" />
             </div>
           </div>
         </div>
