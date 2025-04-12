@@ -213,7 +213,16 @@ function MedicationLogbookContent() {
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center">
                       <BeakerIcon className="h-6 w-6 text-primary mr-2" />
-                      <h3 className="text-lg font-semibold">{medication.name}</h3>
+                      {(medication.name === 'Blood Pressure Medicine' || medication.name === 'Cholesterol Medicine') ? (
+                        <Link 
+                          href={`/lifestyle/medication-logbook/${medication.name === 'Blood Pressure Medicine' ? 'blood-pressure' : 'cholesterol'}`}
+                          className="text-lg font-semibold hover:text-primary transition-colors"
+                        >
+                          {medication.name}
+                        </Link>
+                      ) : (
+                        <h3 className="text-lg font-semibold">{medication.name}</h3>
+                      )}
                     </div>
                     <span className="text-gray-500">Since {medication.startDate}</span>
                   </div>
